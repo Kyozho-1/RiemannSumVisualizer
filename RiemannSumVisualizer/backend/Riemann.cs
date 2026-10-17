@@ -5,7 +5,7 @@ using System.Text;
 using org.mariuszgromada.math.mxparser;
 using org.mariuszgromada.math.mxparser.syntaxchecker;
 
-namespace NumericIntegralWorkbench.backend
+namespace RiemannSumVisualizer.backend
 {
     public class Riemann(
         string expression, double start, double end, int numOfRects, 
@@ -32,11 +32,11 @@ namespace NumericIntegralWorkbench.backend
 
         private RiemannType riemannType = riemannType;
 
+        private double _left, _mid, _right, _trap, _exact;
+
         public double CalculateLeftSum()
         {
             double x_i;
-
-            double left = 0.0;
 
             _expression = new(expression, _argument);
 
@@ -49,16 +49,14 @@ namespace NumericIntegralWorkbench.backend
 
                 _argument.setArgumentValue(x_i);
 
-                left += _expression.calculate() * _deltaX;
+                _left += _expression.calculate() * _deltaX;
             }
 
-            return left;
+            return _left;
         }
 
         public double CalculateRightSum()
         {
-            double right = 0.0;
-
             double x_iPlus1;
 
             _expression = new(expression, _argument);
@@ -72,16 +70,14 @@ namespace NumericIntegralWorkbench.backend
 
                 _argument.setArgumentValue(x_iPlus1);
 
-                right += _expression.calculate() * _deltaX;
+                _right += _expression.calculate() * _deltaX;
             }
 
-            return right;
+            return _right;
         }
 
         public double CalculateMidSum()
         {
-            double mid = 0.0;
-
             double x_i, x_iPlus1;
 
             _expression = new(expression, _argument);
@@ -98,16 +94,14 @@ namespace NumericIntegralWorkbench.backend
                     (x_i + x_iPlus1) / 2
                 );
 
-                mid += _expression.calculate() * _deltaX;
+                _mid += _expression.calculate() * _deltaX;
             }
 
-            return mid;
+            return _mid;
         }
 
         public double CalculateTrapezoidalSum()
         {
-            double trap = 0.0;
-
             double x_i, x_iPlus1;
 
             _expression = new(expression, _argument);
@@ -121,16 +115,16 @@ namespace NumericIntegralWorkbench.backend
 
                 _argument.setArgumentValue(x_i);
 
-                trap += (_expression.calculate() / 2) * _deltaX;
+                _trap += (_expression.calculate() / 2) * _deltaX;
 
                 x_iPlus1 = x_i + _deltaX;
 
                 _argument.setArgumentValue(x_iPlus1);
 
-                trap += (_expression.calculate() / 2) * _deltaX;
+                _trap += (_expression.calculate() / 2) * _deltaX;
             }
 
-            return trap;
+            return _trap;
         }
 
         public double CalculateExactIntegral()
@@ -140,9 +134,22 @@ namespace NumericIntegralWorkbench.backend
             CheckEquationSyntax();
             CheckBounds();
 
-            return _expression.calculate();
+            _exact = _expression.calculate();
+
+            return _exact;
         }
 
+        public double CalculateApproximationError()
+        {
+            return riemannType switch
+            {
+                RiemannType.Left => (_left / _exact) * 100,
+                RiemannType.Right => (_right / _exact) * 100,
+                RiemannType.Mid => (_mid / _exact) * 100,
+                RiemannType.Trapezoidal => (_trap / _exact) * 100,
+                _ => throw new NotImplementedException()
+            };
+        }
         private void CheckEquationSyntax()
         {
             if (_expression is null)

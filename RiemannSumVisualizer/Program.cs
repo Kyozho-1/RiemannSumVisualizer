@@ -10,7 +10,7 @@ namespace RiemannSumVisualizer
         static void Main()
         {
             ApplicationConfiguration.Initialize();
-            Application.Run(new RiemannSumVisualizer.frontend.MainWindow());
+            Application.Run(new RiemannSumVisualizer.frontend.InitWindow());
         }
     }
 }
