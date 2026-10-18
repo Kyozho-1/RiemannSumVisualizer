@@ -10,7 +10,7 @@ namespace RiemannSumVisualizer.frontend
     {
         private readonly Form _form;
 
-        private readonly Font _defaultFont = new("Times New Roman", 16.0f);
+        private readonly Font _defaultFont = new("Arial", 16.0f);
 
         private SplitContainer _splitContainer;
 
@@ -45,6 +45,7 @@ namespace RiemannSumVisualizer.frontend
             _splitContainer.Panel1.Controls.Add(_tableLayoutPanel);
 
             AddFunctionInput();
+            AddBoundInputs();
         }
 
         private void AddFunctionInput()
@@ -64,8 +65,43 @@ namespace RiemannSumVisualizer.frontend
                 Dock = DockStyle.Left
             };
 
-            _tableLayoutPanel.Controls.Add(functionLabel, 0, 0);
-            _tableLayoutPanel.Controls.Add(functionTextBox, 1, 0);
+            _tableLayoutPanel.Controls.AddRange([functionLabel, functionTextBox]);
+        }
+
+        private void AddBoundInputs()
+        {
+            Label lowerBoundLabel = new()
+            {
+                Text = "Lower Bound (a) =",
+                Font = _defaultFont,
+                AutoSize = true
+            };
+
+            TextBox lowerBoundTextBox = new()
+            {
+                BackColor = _neonSkyBlue,
+                Size = new(_splitContainer.SplitterDistance, 80),
+                BorderStyle = BorderStyle.FixedSingle,
+                Dock = DockStyle.Left
+            };
+
+            Label upperBoundLabel = new()
+            {
+                Text = "Upper Bound (b) =",
+                Font = _defaultFont,
+                AutoSize = true
+            };
+
+            TextBox upperBoundTextBox = new()
+            {
+                BackColor = _neonSkyBlue,
+                Size = new(_splitContainer.SplitterDistance, 80),
+                BorderStyle = BorderStyle.FixedSingle,
+                Dock = DockStyle.Left
+            };
+
+            _tableLayoutPanel.Controls.AddRange([lowerBoundLabel, lowerBoundTextBox]);
+            _tableLayoutPanel.Controls.AddRange([upperBoundLabel, upperBoundTextBox]);
         }
     }
 }
