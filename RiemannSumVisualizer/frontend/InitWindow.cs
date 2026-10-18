@@ -16,8 +16,6 @@ namespace RiemannSumVisualizer.frontend
             this.ClientSize = new(windowSize[0], windowSize[1]);
             this.WindowState = FormWindowState.Maximized;
 
-            CenterToScreen();
-
             _ = new RiemannApplication(this);
         }
     }
