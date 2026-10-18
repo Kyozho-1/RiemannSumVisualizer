@@ -16,8 +16,7 @@ namespace RiemannSumVisualizer.frontend
 
         private TableLayoutPanel _tableLayoutPanel;
 
-        private readonly Color _neonSkyBlue = Color.FromArgb(152, 255, 255);
-        private readonly Color _cloudyLavendar = Color.FromArgb(203, 204, 255);
+        private TrackBar intervalsTrackBar;
 
         public RiemannApplication(Form form)
         {
@@ -28,24 +27,28 @@ namespace RiemannSumVisualizer.frontend
                 Orientation = Orientation.Vertical,
                 Dock = DockStyle.Fill,
                 BorderStyle = BorderStyle.FixedSingle,
-                BackColor = _cloudyLavendar
+                BackColor = MidnightMathColors.GetColor(MidnightMath.TwilightBlack),
+                SplitterDistance = _form.Width / 10
             };
 
             _tableLayoutPanel = new()
             {
                 RowCount = 8,
-                ColumnCount = 2,
+                ColumnCount = 3,
                 Dock = DockStyle.Fill,
                 Padding = new(10),
-                CellBorderStyle = TableLayoutPanelCellBorderStyle.Single
+                CellBorderStyle = TableLayoutPanelCellBorderStyle.Single,
+                BackColor = MidnightMathColors.GetColor(MidnightMath.TwilightGray)
             };
 
             _form.Controls.Add(_splitContainer);
 
             _splitContainer.Panel1.Controls.Add(_tableLayoutPanel);
 
+            /* Adding Inputs and labels to the 1st panel. */
             AddFunctionInput();
             AddBoundInputs();
+            AddIntervalsInput();
         }
 
         private void AddFunctionInput()
@@ -54,18 +57,21 @@ namespace RiemannSumVisualizer.frontend
             {
                 Text = "f(x) =",
                 Font = _defaultFont,
-                AutoSize = true
+                AutoSize = true,
+                ForeColor = Color.AntiqueWhite
             };
 
             TextBox functionTextBox = new()
             {
-                BackColor = _neonSkyBlue,
+                BackColor = MidnightMathColors.GetColor(MidnightMath.RoyalPlum),
+                ForeColor = Color.AntiqueWhite,
                 Size = new(_splitContainer.SplitterDistance, 80),
                 BorderStyle = BorderStyle.FixedSingle,
-                Dock = DockStyle.Left
+                Dock = DockStyle.Left,
             };
 
-            _tableLayoutPanel.Controls.AddRange([functionLabel, functionTextBox]);
+            _tableLayoutPanel.Controls.Add(functionLabel, 0, 0);
+            _tableLayoutPanel.Controls.Add(functionTextBox, 1, 0);
         }
 
         private void AddBoundInputs()
@@ -74,12 +80,14 @@ namespace RiemannSumVisualizer.frontend
             {
                 Text = "Lower Bound (a) =",
                 Font = _defaultFont,
-                AutoSize = true
+                AutoSize = true,
+                ForeColor = Color.AntiqueWhite,
             };
 
             TextBox lowerBoundTextBox = new()
             {
-                BackColor = _neonSkyBlue,
+                BackColor = MidnightMathColors.GetColor(MidnightMath.RoyalPlum),
+                ForeColor = Color.AntiqueWhite,
                 Size = new(_splitContainer.SplitterDistance, 80),
                 BorderStyle = BorderStyle.FixedSingle,
                 Dock = DockStyle.Left
@@ -89,19 +97,55 @@ namespace RiemannSumVisualizer.frontend
             {
                 Text = "Upper Bound (b) =",
                 Font = _defaultFont,
-                AutoSize = true
+                AutoSize = true,
+                ForeColor = Color.AntiqueWhite
             };
 
             TextBox upperBoundTextBox = new()
             {
-                BackColor = _neonSkyBlue,
+                BackColor = MidnightMathColors.GetColor(MidnightMath.RoyalPlum),
+                ForeColor = Color.AntiqueWhite,
                 Size = new(_splitContainer.SplitterDistance, 80),
                 BorderStyle = BorderStyle.FixedSingle,
                 Dock = DockStyle.Left
             };
 
-            _tableLayoutPanel.Controls.AddRange([lowerBoundLabel, lowerBoundTextBox]);
-            _tableLayoutPanel.Controls.AddRange([upperBoundLabel, upperBoundTextBox]);
+            _tableLayoutPanel.Controls.Add(lowerBoundLabel, 0, 1);
+            _tableLayoutPanel.Controls.Add(lowerBoundTextBox, 1, 1);
+            _tableLayoutPanel.Controls.Add(upperBoundLabel, 0, 2);
+            _tableLayoutPanel.Controls.Add(upperBoundTextBox, 1, 2);
+        }
+
+        private void AddIntervalsInput()
+        {
+            Label intervalsLabel = new()
+            {
+                Text = "Intervals (Δx) =",
+                Font = _defaultFont,
+                AutoSize = true,
+                ForeColor = Color.AntiqueWhite
+            };
+
+            Label tickCounterLabel = new()
+            {
+                Text = "Intervals: ",
+                Font = _defaultFont,
+                AutoSize = true,
+                ForeColor = Color.AntiqueWhite
+            };
+
+            intervalsTrackBar = new()
+            {
+                Minimum = 1,
+                Maximum = 100,
+                TickFrequency = 1,
+                TickStyle = TickStyle.BottomRight,
+                Size = new(_splitContainer.SplitterDistance, 80)
+            };
+
+            _tableLayoutPanel.Controls.Add(intervalsLabel, 0, 3);
+            _tableLayoutPanel.Controls.Add(intervalsTrackBar, 1, 3);
+            _tableLayoutPanel.Controls.Add(tickCounterLabel, 2, 3);
         }
     }
 }
