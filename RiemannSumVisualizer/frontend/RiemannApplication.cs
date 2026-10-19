@@ -10,13 +10,13 @@ namespace RiemannSumVisualizer.frontend
     {
         private readonly Form _form;
 
-        private readonly Font _defaultFont = new("Arial", 16.0f);
+        private readonly Font _defaultFont = new("Segoe UI", 16.0f);
 
         private SplitContainer _splitContainer;
 
         private TableLayoutPanel _tableLayoutPanel;
 
-        private TrackBar intervalsTrackBar;
+        private TrackBar _intervalsTrackBar;
 
         public RiemannApplication(Form form)
         {
@@ -28,7 +28,7 @@ namespace RiemannSumVisualizer.frontend
                 Dock = DockStyle.Fill,
                 BorderStyle = BorderStyle.FixedSingle,
                 BackColor = MidnightMathColors.GetColor(MidnightMath.TwilightBlack),
-                SplitterDistance = _form.Width / 10
+                SplitterDistance = _form.Width / 12
             };
 
             _tableLayoutPanel = new()
@@ -37,7 +37,6 @@ namespace RiemannSumVisualizer.frontend
                 ColumnCount = 3,
                 Dock = DockStyle.Fill,
                 Padding = new(10),
-                CellBorderStyle = TableLayoutPanelCellBorderStyle.Single,
                 BackColor = MidnightMathColors.GetColor(MidnightMath.TwilightGray)
             };
 
@@ -68,6 +67,7 @@ namespace RiemannSumVisualizer.frontend
                 Size = new(_splitContainer.SplitterDistance, 80),
                 BorderStyle = BorderStyle.FixedSingle,
                 Dock = DockStyle.Left,
+                Font = _defaultFont
             };
 
             _tableLayoutPanel.Controls.Add(functionLabel, 0, 0);
@@ -90,7 +90,8 @@ namespace RiemannSumVisualizer.frontend
                 ForeColor = Color.AntiqueWhite,
                 Size = new(_splitContainer.SplitterDistance, 80),
                 BorderStyle = BorderStyle.FixedSingle,
-                Dock = DockStyle.Left
+                Dock = DockStyle.Left,
+                Font = _defaultFont
             };
 
             Label upperBoundLabel = new()
@@ -107,7 +108,8 @@ namespace RiemannSumVisualizer.frontend
                 ForeColor = Color.AntiqueWhite,
                 Size = new(_splitContainer.SplitterDistance, 80),
                 BorderStyle = BorderStyle.FixedSingle,
-                Dock = DockStyle.Left
+                Dock = DockStyle.Left,
+                Font = _defaultFont
             };
 
             _tableLayoutPanel.Controls.Add(lowerBoundLabel, 0, 1);
@@ -128,24 +130,33 @@ namespace RiemannSumVisualizer.frontend
 
             Label tickCounterLabel = new()
             {
-                Text = "Intervals: ",
+                Text = "Intervals: 0",
                 Font = _defaultFont,
                 AutoSize = true,
                 ForeColor = Color.AntiqueWhite
             };
 
-            intervalsTrackBar = new()
+            _intervalsTrackBar = new()
             {
                 Minimum = 1,
                 Maximum = 100,
                 TickFrequency = 1,
                 TickStyle = TickStyle.BottomRight,
-                Size = new(_splitContainer.SplitterDistance, 80)
+                Size = new(_splitContainer.SplitterDistance, 80),
             };
 
+            _intervalsTrackBar.Scroll += ScrollChange;
+
             _tableLayoutPanel.Controls.Add(intervalsLabel, 0, 3);
-            _tableLayoutPanel.Controls.Add(intervalsTrackBar, 1, 3);
+            _tableLayoutPanel.Controls.Add(_intervalsTrackBar, 1, 3);
             _tableLayoutPanel.Controls.Add(tickCounterLabel, 2, 3);
+
+            void ScrollChange(object? s, EventArgs _)
+            {
+                TrackBar trackBar = (TrackBar)s;
+
+                tickCounterLabel.Text = "Intervals: " + trackBar.Value.ToString();
+            }
         }
     }
 }
