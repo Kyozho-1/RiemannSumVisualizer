@@ -21,9 +21,9 @@ namespace RiemannSumVisualizer.frontend
             return color switch
             {
                 MidnightMath.TwilightBlack => ColorTranslator.FromHtml("#21182B"),
-                MidnightMath.TwilightGray => ColorTranslator.FromHtml("#35263F"),
-                MidnightMath.RoyalPlum => ColorTranslator.FromHtml("#832161"),
-                MidnightMath.HumblePink => ColorTranslator.FromHtml("#DA4167"),
+                MidnightMath.TwilightGray  => ColorTranslator.FromHtml("#35263F"),
+                MidnightMath.RoyalPlum     => ColorTranslator.FromHtml("#832161"),
+                MidnightMath.HumblePink    => ColorTranslator.FromHtml("#DA4167"),
                 MidnightMath.ChampagnePink => ColorTranslator.FromHtml("#E9B8C4"),
 
                 _ => Color.Empty

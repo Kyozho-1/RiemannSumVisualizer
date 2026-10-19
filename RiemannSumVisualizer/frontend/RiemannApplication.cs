@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RiemannSumVisualizer.backend;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -17,6 +18,12 @@ namespace RiemannSumVisualizer.frontend
         private TableLayoutPanel _tableLayoutPanel;
 
         private TrackBar _intervalsTrackBar;
+
+        private RiemannApplication _riemann;
+
+        private TextBox _functionTextBox, _lowerBoundTextBox, _upperBoundTextBox;
+
+        private ComboBox _endpointsComboBox;
 
         public RiemannApplication(Form form)
         {
@@ -48,6 +55,7 @@ namespace RiemannSumVisualizer.frontend
             AddFunctionInput();
             AddBoundInputs();
             AddIntervalsInput();
+            AddEndpointInputs();
         }
 
         private void AddFunctionInput()
@@ -60,7 +68,7 @@ namespace RiemannSumVisualizer.frontend
                 ForeColor = Color.AntiqueWhite
             };
 
-            TextBox functionTextBox = new()
+            _functionTextBox = new()
             {
                 BackColor = MidnightMathColors.GetColor(MidnightMath.RoyalPlum),
                 ForeColor = Color.AntiqueWhite,
@@ -71,7 +79,7 @@ namespace RiemannSumVisualizer.frontend
             };
 
             _tableLayoutPanel.Controls.Add(functionLabel, 0, 0);
-            _tableLayoutPanel.Controls.Add(functionTextBox, 1, 0);
+            _tableLayoutPanel.Controls.Add(_functionTextBox, 1, 0);
         }
 
         private void AddBoundInputs()
@@ -84,7 +92,7 @@ namespace RiemannSumVisualizer.frontend
                 ForeColor = Color.AntiqueWhite,
             };
 
-            TextBox lowerBoundTextBox = new()
+            _lowerBoundTextBox = new()
             {
                 BackColor = MidnightMathColors.GetColor(MidnightMath.RoyalPlum),
                 ForeColor = Color.AntiqueWhite,
@@ -102,7 +110,7 @@ namespace RiemannSumVisualizer.frontend
                 ForeColor = Color.AntiqueWhite
             };
 
-            TextBox upperBoundTextBox = new()
+            _upperBoundTextBox = new()
             {
                 BackColor = MidnightMathColors.GetColor(MidnightMath.RoyalPlum),
                 ForeColor = Color.AntiqueWhite,
@@ -113,9 +121,9 @@ namespace RiemannSumVisualizer.frontend
             };
 
             _tableLayoutPanel.Controls.Add(lowerBoundLabel, 0, 1);
-            _tableLayoutPanel.Controls.Add(lowerBoundTextBox, 1, 1);
+            _tableLayoutPanel.Controls.Add(_lowerBoundTextBox, 1, 1);
             _tableLayoutPanel.Controls.Add(upperBoundLabel, 0, 2);
-            _tableLayoutPanel.Controls.Add(upperBoundTextBox, 1, 2);
+            _tableLayoutPanel.Controls.Add(_upperBoundTextBox, 1, 2);
         }
 
         private void AddIntervalsInput()
@@ -157,6 +165,33 @@ namespace RiemannSumVisualizer.frontend
 
                 tickCounterLabel.Text = "Intervals: " + trackBar.Value.ToString();
             }
+        }
+
+        public void AddEndpointInputs()
+        {
+            var endpointTitles = new[] { "Right", "Mid", "Left", "Trapezoidal" };
+
+            Label endpointTypeLabel = new()
+            {
+                Text = "Endpoint Type",
+                Font = _defaultFont,
+                AutoSize = true,
+                ForeColor = Color.AntiqueWhite
+            };
+
+            _endpointsComboBox = new()
+            {
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                BackColor = MidnightMathColors.GetColor(MidnightMath.RoyalPlum),
+                ForeColor = Color.AntiqueWhite,
+                Font = _defaultFont,
+                Size = new(200, 0)
+            };
+
+            _endpointsComboBox.Items.AddRange(endpointTitles);
+
+            _tableLayoutPanel.Controls.Add(endpointTypeLabel, 0, 4);
+            _tableLayoutPanel.Controls.Add(_endpointsComboBox, 0, 5);
         }
     }
 }
