@@ -198,59 +198,70 @@ namespace RiemannSumVisualizer.frontend
 
         private void AddSumResults()
         {
-            int[] dimensions = [250, 100];     // Width, Height
-            int[] margins    = [0, 20, 0, 20]; // Left, Top, Right, Bottom
+            Label approxLabel, exactLabel, approxValueLabel, exactValueLabel;
 
-            Panel approxPanel = new()
+            CreateLabels();
+            CreatePanels();
+
+            void CreatePanels()
             {
-                Size = new(dimensions[0], dimensions[1]),
-                BackColor = MidnightMathColors.HumblePink,
-                BorderStyle = BorderStyle.FixedSingle,
-                Margin = new(margins[0], margins[1], margins[2], margins[3])
-            };
+                int[] dimensions = [250, 100];     // Width, Height
+                int[] margins    = [0, 20, 0, 20]; // Left, Top, Right, Bottom
 
-            Panel exactPanel = new()
+                Panel approxPanel = new()
+                {
+                    Size = new(dimensions[0], dimensions[1]),
+                    BackColor = MidnightMathColors.HumblePink,
+                    BorderStyle = BorderStyle.FixedSingle,
+                    Margin = new(margins[0], margins[1], margins[2], margins[3])
+                };
+
+                Panel exactPanel = new()
+                {
+                    Size = new(dimensions[0], dimensions[1]),
+                    BackColor = MidnightMathColors.HumblePink,
+                    BorderStyle = BorderStyle.FixedSingle,
+                    Margin = new(margins[0], margins[1], margins[2], margins[3])
+                };
+
+                _tableLayoutPanel.Controls.Add(approxPanel, 0, 6);
+                _tableLayoutPanel.Controls.Add(exactPanel, 1, 6);
+            }
+
+            void CreateLabels()
             {
-                Size = new(dimensions[0], dimensions[1]),
-                BackColor = MidnightMathColors.HumblePink,
-                BorderStyle = BorderStyle.FixedSingle,
-                Margin = new(margins[0], margins[1], margins[2], margins[3])
-            };
+                approxLabel = new()
+                {
+                    Text = "Approximate",
+                    Font = _defaultFont,
+                    AutoSize = true,
+                    ForeColor = Color.AntiqueWhite
+                };
 
-            Label approxLabel = new()
-            {
-                Text = "Approximate",
-                Font = _defaultFont,
-                AutoSize = true,
-                ForeColor = Color.AntiqueWhite
-            };
+                exactLabel = new()
+                {
+                    Text = "0.0000",
+                    Font = _defaultFont,
+                    AutoSize = true,
+                    ForeColor = Color.AntiqueWhite
+                };
 
-            Label exactLabel = new()
-            {
-                Text = "0.0000",
-                Font = _defaultFont,
-                AutoSize = true,
-                ForeColor = Color.AntiqueWhite
-            };
+                approxValueLabel = new()
+                {
+                    Text = "0.0000",
+                    Font = _defaultFont,
+                    AutoSize = true,
+                    ForeColor = MidnightMathColors.ChampagnePink
+                };
 
-            Label approxValueLabel = new()
-            {
-                Text = "0.0000",
-                Font = _defaultFont,
-                AutoSize = true,
-                ForeColor = MidnightMathColors.ChampagnePink
-            };
-
-            Label exactValueLabel = new()
-            {
-                Text = "0.0000",
-                Font = _defaultFont,
-                AutoSize = true,
-                ForeColor = MidnightMathColors.ChampagnePink
-            };
-
-            _tableLayoutPanel.Controls.Add(approxPanel, 0, 6);
-            _tableLayoutPanel.Controls.Add(exactPanel, 1, 6);
+                exactValueLabel = new()
+                {
+                    Text = "0.0000",
+                    Font = _defaultFont,
+                    AutoSize = true,
+                    ForeColor = MidnightMathColors.ChampagnePink
+                };
+            }
         }
     }
 }
