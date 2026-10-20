@@ -203,31 +203,6 @@ namespace RiemannSumVisualizer.frontend
             CreateLabels();
             CreatePanels();
 
-            void CreatePanels()
-            {
-                int[] dimensions = [250, 100];     // Width, Height
-                int[] margins    = [0, 20, 0, 20]; // Left, Top, Right, Bottom
-
-                Panel approxPanel = new()
-                {
-                    Size = new(dimensions[0], dimensions[1]),
-                    BackColor = MidnightMathColors.HumblePink,
-                    BorderStyle = BorderStyle.FixedSingle,
-                    Margin = new(margins[0], margins[1], margins[2], margins[3])
-                };
-
-                Panel exactPanel = new()
-                {
-                    Size = new(dimensions[0], dimensions[1]),
-                    BackColor = MidnightMathColors.HumblePink,
-                    BorderStyle = BorderStyle.FixedSingle,
-                    Margin = new(margins[0], margins[1], margins[2], margins[3])
-                };
-
-                _tableLayoutPanel.Controls.Add(approxPanel, 0, 6);
-                _tableLayoutPanel.Controls.Add(exactPanel, 1, 6);
-            }
-
             void CreateLabels()
             {
                 approxLabel = new()
@@ -235,15 +210,19 @@ namespace RiemannSumVisualizer.frontend
                     Text = "Approximate",
                     Font = _defaultFont,
                     AutoSize = true,
-                    ForeColor = Color.AntiqueWhite
+                    ForeColor = Color.AntiqueWhite,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Dock = DockStyle.Fill
                 };
 
                 exactLabel = new()
                 {
-                    Text = "0.0000",
+                    Text = "Exact",
                     Font = _defaultFont,
                     AutoSize = true,
-                    ForeColor = Color.AntiqueWhite
+                    ForeColor = Color.AntiqueWhite,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Dock = DockStyle.Fill
                 };
 
                 approxValueLabel = new()
@@ -251,7 +230,9 @@ namespace RiemannSumVisualizer.frontend
                     Text = "0.0000",
                     Font = _defaultFont,
                     AutoSize = true,
-                    ForeColor = MidnightMathColors.ChampagnePink
+                    ForeColor = MidnightMathColors.ChampagnePink,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Dock = DockStyle.Fill
                 };
 
                 exactValueLabel = new()
@@ -259,8 +240,45 @@ namespace RiemannSumVisualizer.frontend
                     Text = "0.0000",
                     Font = _defaultFont,
                     AutoSize = true,
-                    ForeColor = MidnightMathColors.ChampagnePink
+                    ForeColor = MidnightMathColors.ChampagnePink,
+                    TextAlign = ContentAlignment.MiddleCenter,
+                    Dock = DockStyle.Fill
                 };
+            }
+
+            void CreatePanels()
+            {
+                int[] dimensions = [250, 100];     // Width, Height
+                int[] margins    = [0, 20, 0, 20]; // Left, Top, Right, Bottom
+
+                TableLayoutPanel approxTablePanel = new()
+                {
+                    Size = new(dimensions[0], dimensions[1]),
+                    BackColor = MidnightMathColors.RoyalPlum,
+                    BorderStyle = BorderStyle.FixedSingle,
+                    Margin = new(margins[0], margins[1], margins[2], margins[3]),
+                    RowCount = 2,
+                    ColumnCount = 1
+                };
+
+                TableLayoutPanel exactTablePanel = new()
+                {
+                    Size = new(dimensions[0], dimensions[1]),
+                    BackColor = MidnightMathColors.RoyalPlum,
+                    BorderStyle = BorderStyle.FixedSingle,
+                    Margin = new(margins[0], margins[1], margins[2], margins[3]),
+                    RowCount = 2,
+                    ColumnCount = 1
+                };
+
+                approxTablePanel.Controls.Add(approxLabel, 0, 0);
+                approxTablePanel.Controls.Add(approxValueLabel, 0, 1);
+
+                exactTablePanel.Controls.Add(exactLabel, 0, 0);
+                exactTablePanel.Controls.Add(exactValueLabel, 0, 1);
+
+                _tableLayoutPanel.Controls.Add(approxTablePanel, 0, 6);
+                _tableLayoutPanel.Controls.Add(exactTablePanel, 1, 6);
             }
         }
     }
