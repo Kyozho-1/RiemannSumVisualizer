@@ -1,6 +1,7 @@
 ﻿using RiemannSumVisualizer.backend;
 using System;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using System.Text;
 
 using System.Windows.Forms;
@@ -11,7 +12,7 @@ namespace RiemannSumVisualizer.frontend
     {
         private readonly Form _form;
 
-        private readonly Font _defaultFont = new("Segoe UI", 16.0f);
+        private readonly Font _defaultFont = new("Calisto MT", 16.0f);
 
         private SplitContainer _splitContainer;
 
@@ -34,17 +35,18 @@ namespace RiemannSumVisualizer.frontend
                 Orientation = Orientation.Vertical,
                 Dock = DockStyle.Fill,
                 BorderStyle = BorderStyle.FixedSingle,
-                BackColor = MidnightMathColors.GetColor(MidnightMath.TwilightBlack),
-                SplitterDistance = _form.Width / 12
+                BackColor = MidnightMathColors.TwilightBlack,
+                SplitterDistance = _form.Width / 12,
+                IsSplitterFixed = true
             };
 
             _tableLayoutPanel = new()
             {
-                RowCount = 8,
+                RowCount = 9,
                 ColumnCount = 3,
                 Dock = DockStyle.Fill,
                 Padding = new(10),
-                BackColor = MidnightMathColors.GetColor(MidnightMath.TwilightGray)
+                BackColor = MidnightMathColors.TwilightGray
             };
 
             _form.Controls.Add(_splitContainer);
@@ -56,8 +58,8 @@ namespace RiemannSumVisualizer.frontend
             AddBoundInputs();
             AddIntervalsInput();
             AddEndpointInputs();
+            AddSumResults();
         }
-
         private void AddFunctionInput()
         {
             Label functionLabel = new()
@@ -70,7 +72,7 @@ namespace RiemannSumVisualizer.frontend
 
             _functionTextBox = new()
             {
-                BackColor = MidnightMathColors.GetColor(MidnightMath.RoyalPlum),
+                BackColor = MidnightMathColors.RoyalPlum,
                 ForeColor = Color.AntiqueWhite,
                 Size = new(_splitContainer.SplitterDistance, 80),
                 BorderStyle = BorderStyle.FixedSingle,
@@ -94,7 +96,7 @@ namespace RiemannSumVisualizer.frontend
 
             _lowerBoundTextBox = new()
             {
-                BackColor = MidnightMathColors.GetColor(MidnightMath.RoyalPlum),
+                BackColor = MidnightMathColors.RoyalPlum,
                 ForeColor = Color.AntiqueWhite,
                 Size = new(_splitContainer.SplitterDistance, 80),
                 BorderStyle = BorderStyle.FixedSingle,
@@ -112,7 +114,7 @@ namespace RiemannSumVisualizer.frontend
 
             _upperBoundTextBox = new()
             {
-                BackColor = MidnightMathColors.GetColor(MidnightMath.RoyalPlum),
+                BackColor = MidnightMathColors.RoyalPlum,
                 ForeColor = Color.AntiqueWhite,
                 Size = new(_splitContainer.SplitterDistance, 80),
                 BorderStyle = BorderStyle.FixedSingle,
@@ -167,7 +169,7 @@ namespace RiemannSumVisualizer.frontend
             }
         }
 
-        public void AddEndpointInputs()
+        private void AddEndpointInputs()
         {
             var endpointTitles = new[] { "Right", "Mid", "Left", "Trapezoidal" };
 
@@ -182,7 +184,7 @@ namespace RiemannSumVisualizer.frontend
             _endpointsComboBox = new()
             {
                 DropDownStyle = ComboBoxStyle.DropDownList,
-                BackColor = MidnightMathColors.GetColor(MidnightMath.RoyalPlum),
+                BackColor = MidnightMathColors.RoyalPlum,
                 ForeColor = Color.AntiqueWhite,
                 Font = _defaultFont,
                 Size = new(200, 0)
@@ -192,6 +194,63 @@ namespace RiemannSumVisualizer.frontend
 
             _tableLayoutPanel.Controls.Add(endpointTypeLabel, 0, 4);
             _tableLayoutPanel.Controls.Add(_endpointsComboBox, 0, 5);
+        }
+
+        private void AddSumResults()
+        {
+            int[] dimensions = [250, 100];     // Width, Height
+            int[] margins    = [0, 20, 0, 20]; // Left, Top, Right, Bottom
+
+            Panel approxPanel = new()
+            {
+                Size = new(dimensions[0], dimensions[1]),
+                BackColor = MidnightMathColors.HumblePink,
+                BorderStyle = BorderStyle.FixedSingle,
+                Margin = new(margins[0], margins[1], margins[2], margins[3])
+            };
+
+            Panel exactPanel = new()
+            {
+                Size = new(dimensions[0], dimensions[1]),
+                BackColor = MidnightMathColors.HumblePink,
+                BorderStyle = BorderStyle.FixedSingle,
+                Margin = new(margins[0], margins[1], margins[2], margins[3])
+            };
+
+            Label approxLabel = new()
+            {
+                Text = "Approximate",
+                Font = _defaultFont,
+                AutoSize = true,
+                ForeColor = Color.AntiqueWhite
+            };
+
+            Label exactLabel = new()
+            {
+                Text = "0.0000",
+                Font = _defaultFont,
+                AutoSize = true,
+                ForeColor = Color.AntiqueWhite
+            };
+
+            Label approxValueLabel = new()
+            {
+                Text = "0.0000",
+                Font = _defaultFont,
+                AutoSize = true,
+                ForeColor = MidnightMathColors.ChampagnePink
+            };
+
+            Label exactValueLabel = new()
+            {
+                Text = "0.0000",
+                Font = _defaultFont,
+                AutoSize = true,
+                ForeColor = MidnightMathColors.ChampagnePink
+            };
+
+            _tableLayoutPanel.Controls.Add(approxPanel, 0, 6);
+            _tableLayoutPanel.Controls.Add(exactPanel, 1, 6);
         }
     }
 }
